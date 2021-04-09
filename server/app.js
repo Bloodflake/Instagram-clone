@@ -16,7 +16,7 @@ app.use(require("./routes/auth"));
 mongoose.connect(`mongodb+srv://sumit:${process.env.PWSSRD}@cluster0.5zven.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoose.connection.on("connectedccd", ()=>{
+mongoose.connection.on("connected", ()=>{
     console.log("connected to DB")
 });
 
