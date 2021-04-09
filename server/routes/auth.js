@@ -5,6 +5,13 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const requireLogin = require("../middleware/requireLogin")
+
+
+router.get("/protected",requireLogin, (req, res)=>{
+    res.send("hello")
+})
+
 
 router.post("/signup", (req, res) => {
     var {name, email, password} = req.body;
