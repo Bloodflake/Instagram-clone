@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+require("./models/user")
+
 
 const port = process.env.PORT || 3000;
 dotenv.config();
@@ -14,7 +16,7 @@ app.use(require("./routes/auth"));
 
 
 mongoose.connect(`mongodb+srv://sumit:${process.env.PWSSRD}@cluster0.5zven.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-{ useNewUrlParser: true, useUnifiedTopology: true });
+{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 mongoose.connection.on("connected", ()=>{
     console.log("connected to DB")
