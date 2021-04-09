@@ -1,14 +1,21 @@
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
 const port = process.env.PORT || 3000;
+dotenv.config();
 
-const customMidleware = function(req, res, next){
-    console.log("midleware")
-    next()
-}
+mongoose.connect(`mongodb+srv://sumit:${process.env.PWSSRD}@cluster0.5zven.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+{ useNewUrlParser: true, useUnifiedTopology: true });
 
-// app.use(customMidleware);
+mongoose.connection.on("connected", ()=>{
+    console.log("connected to DB")
+});
+
+mongoose.connection.on("error", (err)=>{
+    console.log("error", err)
+})
 
 app.route('/')
 .get(function(req, res){
@@ -16,9 +23,4 @@ app.route('/')
 })
 
 
-app.route("/about")
-.get(customMidleware,function(req, res){
-    res.send("About Page")
-})
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => console.log(`Server running on port ${port} ${process.env.USER}`));
