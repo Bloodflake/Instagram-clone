@@ -32,5 +32,30 @@ router.post("/createPost",requireLogin, (req, res) => {
     })
 });
 
+router.get("/allPost", (req, res) => {
+    Post.find({}, (err, allPost) => {
+        if(!err){
+            // console.log(docs)
+            res.json({allPost})
+        }
+        else{
+            console.log(err)
+            return res.status(422).send("error in finding post")
+        }
+    }).populate("postedBy", "_id name")
+})
+
+router.get("/myPost",requireLogin, (req, res) => {
+    Post.find({postedBy: req.user._id}, (err, myPost) =>{
+        if(!err){
+            res.json({myPost})
+        }
+        else{
+            console.log(err)
+            return res.send("err in looking up post")
+        }
+    }).populate("postedBy", "_id name")
+})
+
 module.exports = router
 
