@@ -2,18 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-require("./models/user")
 
 
 const port = process.env.PORT || 3000;
 dotenv.config();
-
-const app = express();
-
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
-app.use(require("./routes/auth"));
-
 
 mongoose.connect(`mongodb+srv://sumit:${process.env.PWSSRD}@cluster0.5zven.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
@@ -25,6 +17,16 @@ mongoose.connection.on("connected", ()=>{
 mongoose.connection.on("error", (err)=>{
     console.log("error", err)
 })
+
+require("./models/user")
+require("./models/post")
+
+const app = express();
+
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use(require("./routes/auth"));
+app.use(require("./routes/post"))
 
 // app.route('/')
 // .get(function(req, res){

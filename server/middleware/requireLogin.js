@@ -5,7 +5,6 @@ const dotenv = require("dotenv")
 
 module.exports = (req, res, next) => {
     const {authorization} = req.headers
-    console.log(req.headers)
     if(!authorization){
         return res.status(401).send("user must be login")
     }
@@ -21,13 +20,13 @@ module.exports = (req, res, next) => {
                 User.findById(_id, (err, userData)=> {
                     if(!err){
                         req.user = userData
+                        next()
                     }
                     else{
                         return console.log(err)
                     }
                 })
             }
-            next()
         })
     }
 };
